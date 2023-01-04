@@ -21,6 +21,8 @@ def is_valid_date(date_str):
         sg.popup_error(
             "Date format is incorrect.\nPlease enter the date as followed: day/month/year\nexample:10/12/2022", title="Oh Oh! incorrect date format!")
 
+# this method requests the data from the API and return it to the caller
+
 
 def get_data(company_name):
 
@@ -92,7 +94,7 @@ def string_to_datetime2(string):
     year, month, day = map(int, string.split('-'))
     return datetime(year, month, day)
 
-# asks for user input and prints the result
+# prints the result
 
 
 def display_max_min(stock_name, start_date, end_date):
