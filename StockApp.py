@@ -4,6 +4,8 @@ import functions
 # GUI Definition
 layout = [
     [sg.Text("Welcome to the stock finder App", font=("Arial", 20))],
+    [sg.Text("Note: There is only information from 20 years back till now.\n", font=(
+        "Arial", 13))],
     [sg.Text("Please enter the stock symbol:"), sg.Input(key="stock_name")],
     [sg.Text("Please enter the start date in DD/MM/YYYY format:"),
      sg.Input(key="start_date")],
@@ -22,11 +24,11 @@ while True:
     if event in (sg.WINDOW_CLOSED, "Exit"):
         break
     if event == "Find stock information":
-        if (functions.is_valid_date(values["start_date"]) and functions.is_valid_date(values["end_date"])):
+        if (functions.is_valid_date(values["start_date"], values["end_date"])):
             functions.display_max_min(
                 values["stock_name"], values["start_date"], values["end_date"])
     if event == "Find 3 top performing stocks":
-        if (functions.is_valid_date(values["start_date"]) and functions.is_valid_date(values["end_date"])):
+        if (functions.is_valid_date(values["start_date"], values["end_date"])):
             functions.calc_top3(
                 values["start_date"], values["end_date"])
     if event == "How it works":

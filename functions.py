@@ -7,15 +7,16 @@ from datetime import datetime, timedelta
 # alphavantage goes from 20 years ago (says in their documentation)
 
 
-def is_valid_date(date_str):
+def is_valid_date(start_date_str, end_date_str):
     try:
-        date = datetime.strptime(date_str, '%d/%m/%Y')
+        start_date = datetime.strptime(start_date_str, '%d/%m/%Y')
+        end_date = datetime.strptime(end_date_str, '%d/%m/%Y')
         twenty_years_ago = datetime.now() - timedelta(weeks=52*20)
         yesterday = datetime.now() - timedelta(days=1)
-        if (twenty_years_ago <= date <= yesterday):
+        if (twenty_years_ago <= start_date < end_date <= yesterday):
             return True
         sg.popup_error(
-            "Date is incorrect.\nPlease enter a date between 1/11/1991 and yesterday's date", title="Oh Oh! incorrect date!")
+            "Date is incorrect.\nPlease check if you entered the right date", title="Oh Oh! incorrect date!")
         return False
     except ValueError:
         sg.popup_error(
@@ -28,16 +29,15 @@ def get_data(company_name):
 
     api_url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=' + \
         company_name + '&outputsize=full&apikey=HNTGT5T6X1C9TCS4'
-    try:
-        r = requests.get(api_url)
-        data = r.json()
-        r.raise_for_status()
-    except (requests.exceptions.RequestException, SyntaxError, ConnectionError) as e:
-        print(e)
+
+    r = requests.get(api_url)
+    data = r.json()
+    if r.status_code != 200 or data == None:
         sg.popup_error(
             "something went wrong!\nPlease check if your Symbol name is correct and try again")
+    else:
+        return data
 
-    return data
 
 # this method receives json data and return the highest rate with it's date in a tuple between 2 given dates
 
