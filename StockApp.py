@@ -20,10 +20,10 @@ while True:
     if event in (sg.WINDOW_CLOSED, "Exit"):
         break
     if event == "Find":
-        functions.display_max_min(
-            values["stock_name"], values["start_date"], values["end_date"])
+        if (functions.is_valid_date(values["start_date"]) and functions.is_valid_date(values["end_date"])):
+            functions.display_max_min(
+                values["stock_name"], values["start_date"], values["end_date"])
     if event == "Find 3 top performing stocks":
-        functions.calc_top3(
-            values["start_date"], values["end_date"])
-
-# if __name__ == "__main__":
+        if (functions.is_valid_date(values["start_date"]) and functions.is_valid_date(values["end_date"])):
+            functions.calc_top3(
+                values["start_date"], values["end_date"])
